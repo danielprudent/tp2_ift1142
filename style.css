@@ -1,0 +1,98 @@
+tbody#myTable { 
+  width: auto;
+  border: 90px solid black;
+  box-sizing: border-box;
+  display: list-item;
+  align-items: normal;
+  justify-content: left;
+  background-color:linen;
+  
+  gap: 50px;
+  gap: 50px 50px; /* row-gap column gap */
+  row-gap: 30px;
+  column-gap: 30px;
+  flex-wrap: wrap;
+  
+}
+
+.navbarNav a {
+  float: center;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+.navbarNav a.active {
+  background-color: #04AA6D;
+  color: blue;
+}
+
+#navbarNav {
+  background-color:black;
+  overflow: auto;
+  
+}
+  
+
+
+
+/* Change the color of links on hover */
+.navbar a:hover {
+  background-color: #ddd;
+  color: red;
+}
+.navbar-toggler {
+  background-color: #ddd;
+  color: lightblue;
+
+
+
+
+
+}
+
+    img.posterUrl{
+       float: left !important;
+
+
+
+
+        width: auto;
+
+    }
+
+  
+    .card-img{
+      width: 100%;
+      height: 70vh;
+      object-fit: fill;
+      }
+    
+   .table tbody+tbody {
+       align-items: left;
+       justify-content: left;
+   }  
+
+
+   #navbarNav.collapse.navbar-collapse {
+     justify-content: center;
+     background-color: blue;
+     color: blue;
+
+   }
+
+   nav.navbar.navbar-expand-lg.navbar-dark.black {
+     background-color: blue;
+     color: white;
+     position: fixed;
+     width: -webkit-fill-available;
+     z-index: 1;
+     padding: 0px;
+   }
+   
+
+
+   
+
+   
