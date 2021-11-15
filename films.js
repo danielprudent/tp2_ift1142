@@ -85,7 +85,8 @@ function buildTable(data) { //fonction pour construire le tableau card
                             <a href="#" class="btn btn-primary">Ajouter au panier<a/>
                             <a href="#" class="btn btn-primary">Bande annonce<a/>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" onclick="modifierFilm(${i});">Modifier film</button>
-                                        
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2" onclick="supprimerFilm(${i});">Supprimer film</button>
+           
               
               
               </div>
@@ -161,7 +162,7 @@ function selectCategs(selCategs, data) { // afficher les films par categorie sel
 
 // functiion search film 
 
-function searchTable1(value, data) { // afficher film selon la recherche voulu
+function searchTable1(value, data) { // afficher film selon la recherche voulu ( titre,acteur, plot)
     var filteredData = []
 
     for (var i = 0; i < data.length; i++) {
@@ -185,7 +186,7 @@ function searchTable1(value, data) { // afficher film selon la recherche voulu
     return filteredData
 }
 
-function rechercher() {
+function rechercher() { // fonction poour rechercher un film 
     var search = document.getElementById("form1").value;
     selection = searchTable1(search, myArray)
 
@@ -194,8 +195,8 @@ function rechercher() {
 
 
 
-function addFilm() {
-
+function addFilm() { // fonction pour ajouter un nouveau film 
+ 
     let id = document.getElementById('numero').value;
     let title = document.getElementById('titre').value;
     let year = document.getElementById('annee').value;
@@ -211,33 +212,17 @@ function addFilm() {
     let unFilm = { "id": id, "title": title, "year": year, "runtime": runtime, "genres": genres, "director": director, "actors": actors, "plot": plot };
     myArray.push(unFilm);
     console.log(myArray);
-
-}
-
-function addFilmAndRefreshPage() {
-    addFilm();
     buildTable(myArray);
+
 }
 
 
 
-let enleverFilm = (leFilm) => {
-    let racine = leFilm;
-    alert(JSON.stringify(racine));
-}
 
 
-$("#form").submit(function (event) {
-    event.preventDefault(); //prevent default action 
-    var post_url = $(this).attr("submit"); //get form action url
-    var form_data = $(this).serialize(id, title, year, runtime, genres, director, actors, plot); //Encode form elements for submission
 
-    $.post(post_url, form_data, function (response) {
-        $("#server-results").html(response);
-    });
-});
 
-function modifierFilm(index) {
+function modifierFilm(index) { // pour prendre l index du film cliquer
     console.log(index)
     document.getElementById('numero1').value = myArray[index].id;
     document.getElementById('titre1').value = myArray[index].title;
@@ -250,7 +235,7 @@ function modifierFilm(index) {
 
 
 }
-function modifierFilm1() {
+function modifierFilm1() { // modifier le film numero1 = nouveau film 
         var id = document.getElementById('numero1').value;
         var index=myArray.findIndex(f=>f.id==id);
         console.log(id);
@@ -264,24 +249,173 @@ function modifierFilm1() {
         myArray[index].director=document.getElementById('directeur1').value;
         myArray[index].actors=document.getElementById('acteur1').value;
         myArray[index].plot=document.getElementById('description1').value ;
+        buildTable(myArray);
 
-
-
-
-
-
-
-        
-
-       // document.getElementById("new_preview_url").value  = document.getElementById("preview_url"+idx).innerHTML;
-        
-        //document.getElementById("id_modifier").value  = document.getElementById("numero1").innerHTML;
      }
     
 
-     function modifierFilmAndRefreshPage() {
-        modifierFilm();
-        modifierFilm1();
+     
+    //let listeFilmsDisponible = false;
 
+    let listerTousLesFilms = (duree,titre, annee,ordeDeTri) => { // filtrer les film sort par runtime, year and name
+      //  if (listeFilmsDisponible){
+            let contenu = `<div class="row row-cols-4">`;
+            if (annee >= 0){
+                 if (ordeDeTri == 'D'){
+                    myArray.sort((a,b) => parseInt(b.year)-parseInt(a.year));//ordre décroissant
+                 }else { 
+                    myArray.sort((a,b) => parseInt(a.year)-parseInt(b.year));// cas ordreDeTri == 'C' ordre croissant
+                 }
+                    // Par année
+                    for (unFilm of myArray){
+                        if (parseInt(unFilm.year) > annee){
+                            contenu+=buildTable(data(unFilm));
+                        }else if (annee == 0) {
+                            contenu+=buildTable(data(unFilm));
+                        }
+                    }   
+            }else if(titre != null){// if (titre == true)
+                if (ordeDeTri == 'D'){
+                    myArray.sort((a,b) => (b.title > a.title)?1:-1);//ordre décroissant
+                 }else { 
+                    myArray.sort((a,b) => (b.title < a.title)?1:-1);// cas ordreDeTri == 'C' ordre croissant
+                 }
+                // Par titre
+                for (unFilm of myArray){
+                        contenu+=buildTable(data(unFilm));
+                }
+               
+            } else if(duree >= 0){
+                if (ordeDeTri == 'D'){
+                    myArray.sort((a,b) => parseInt(b.runtime)-parseInt(a.runtime));//ordre décroissant
+                 }else { 
+                    myArray.sort((a,b) => parseInt(a.runtime)-parseInt(b.runtime));// cas ordreDeTri == 'C' ordre croissant
+                 }
+                    // Par année
+                    for (unFilm of myArray){
+                        if (parseInt(unFilm.runtime) > duree){
+                            contenu+=buildTable(data(unFilm));
+                        }else if (duree == 0) {
+                            contenu+=buildTable(data(unFilm));
+                        }
+                    }   
+               
+            }
+            contenu+= `</div>`;
+    
+            $('#contenu').html(contenu);//document.getElementById('contenu').innerHTML=contenu;
+        }
+      //  else { alert("SVP vous devez charger la liste des films en premier"); }
+   // }
+    
+    let listerLesPlusRecents = (annee) => {
+
+    }
+
+    
+    /*
+    function supprimerFilm(id) {
+        var id = document.getElementById("id");
+        
+        if (myArray.hasChildNodes(id)) {
+          myArray.removeChild(myArray.childNodes[1]);
+        }
+      }
+*/
+    function supprimerFilm  (index)  {   // supprimer le film
+        document.getElementById('numero2').value = myArray[index].id;
+        console.log(index)
+    }
+    function supprimerFilm1 (){        
+        id=document.getElementById('numero2').value;
+        console.log(id)
+        var index=myArray.findIndex(f=>f.id==id);
+        console.log(index)
+        myArray.splice(index, 1);
         buildTable(myArray);
     }
+    
+    
+    /*
+    function showList(){
+        let tableList = "";
+        for(let i = 0; i < myArray.lenght();i++){
+          console.log(i);
+          if(i<myArray.length){
+            tableList += `
+            <tr>
+              <td>${myArray[i]}</td>
+            </tr>
+          `  
+          }
+        }
+        document.getElementById('myArray').innerHTML=tableList;
+        showPageInfo();
+      }
+
+//creating an array for adding numbers in a page
+var countList = new Array();
+//creating an array for adding number of pagess
+var addPageList = new Array();
+var presentPage = 1;
+var countPerEachPage = 10;
+var countOfPages = 0;
+//function for adding how many numbers in total
+function prepareList() {
+for (count = 0;counti< 100; count++)
+countList.push(count);
+countOfPages = getCountOfPages();
+}
+//function for creating how many how many number per each page
+function getCountOfPages() {
+return Math.ceil(countList.length / countPerEachPage);
+}
+//function for moving to next page
+function getNextPage() {
+presentPage += 1;
+loadMyPaginationList();
+}
+//function for moving previous page
+function getPreviousPage() {
+presentPage -= 1;
+loadMyPaginationList();
+}
+//function for moving to first page
+function getFirstPage() {
+presentPage = 1;
+loadMyPaginationList();
+}
+//function for moving last page
+function getLastPage() {
+presentPage = countOfPages;
+loadMyPaginationList();
+}
+//function for creating how to move between the pages
+function loadMyPaginationList() {
+var start = ((presentPage - 1) * countPerEachPage);
+var end = start + countPerEachPage;
+addPageList = countList.slice(start, end);
+createPageList();
+validatePageCount();
+}
+//function for adding numbers to each page
+function createPageList() {
+document.getElementById("countList").innerHTML = "";
+for (p = 0; p< addPageList.length; p++) {
+document.getElementById("countList").innerHTML = document.getElementById("countList").innerHTML+ addPageList[p] + "<br/>";
+}
+}
+//function for validating real time condition like if move to last page, last page disabled etc
+function validatePageCount() {
+document.getElementById("next").disabled = presentPage == countOfPages ? true : false;
+document.getElementById("previous").disabled = presentPage == 1 ? true : false;
+document.getElementById("first").disabled = presentPage == 1 ? true : false;
+document.getElementById("last").disabled = presentPage == countOfPages ? true : false;
+}
+//function for loading pagination functionality
+function loadMyPagination() {
+prepareList();
+loadMyPaginationList();
+}
+window.onload = loadMyPagination;
+*/

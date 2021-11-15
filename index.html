@@ -3,68 +3,61 @@
 
 <title>Movies</title>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link rel="stylesheet" href="style.css">
+<link  href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link  href="style.css">
 
-  
-<nav class="navbar navbar-expand-lg navbar-dark black"> <!--pour mes card navigation bar -->
-  <a class="navbar-brand" href="#">FILM_IFT1142</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Accueil <span class="sr-only"></span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" onclick="myFunction();" href="#">Lister</a>
-      </li>
-      <li class="nav-item">
-        
-      <li class="nav-item">
-        <a class="nav-link"  for="films">Choisir une categorie</label>    <select onchange="chargerCategs();" name="films" id="films"></select></a>
-        
-        <li class="nav-item">
-          <div class="input-group">
-            <div class="form-outline">
-              <input type="search" id="form1" class="form-control" />
-              <label class="form-label" for="form1">Search</label>
-            </div>
-            <button type="button" onclick="rechercher();"class="btn btn-primary">
-            </button>
-        </li>
+<header>
+  </header>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Film</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Acceuil</a>
+          </li>
+          <li class="nav-item">
+            <ul class="nav-link" href="#"></ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Categories
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <select onclick="chargerCategs();" name="films" id="films"></select>
+               
+               
+            </ul>
+          </li>
 
-        <!-- Button trigger modal -->
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Lister
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a onclick="myFunction();">Lister</a></li>
+               <li><a onclick="listerAndRefreshPage();" href="javascript: listerTousLesFilms(-1,null,1000,'C')">Lister par annee</a></li>
+               <li><a onclick="listerAndRefreshPage();"href="javascript: listerTousLesFilms(-1,'titre',-1,'C')">Lister par titre</a></li>
+               <li><a onclick="listerAndRefreshPage();"href="javascript: listerTousLesFilms(120,null,-1,'C')">Lister par duree</a></li>
+            </ul>
+          </li>
+        </ul>
+        <div class="form-outline" onchange="rechercher();">
+          <input type="search" id="form1" class="form-control" />
+        </div>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
           + Ajouter film
         </button>
-
-        <nav aria-label="Page navigation example">
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-          </ul>
-        </nav>
-
-
-
-      
-    
-
-      
+      </div>
     </div>
-    </ul>
-  </div>
-  
-</nav>
-<header>
- 
-</header>
+  </nav>
+</body> 
+
 
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -97,7 +90,7 @@
     </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-        <button type="submit" onclick="addFilmAndRefreshPage()" class="btn btn-primary">Ajouter</button>
+        <button type="submit" onclick="addFilm()" class="btn btn-primary">Ajouter</button>
       </div>
     </div>
   </div>
@@ -142,6 +135,35 @@
   
 </div>
 
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel1">Suppression du film</h5>
+        <button type="button"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form class="row g-3 needs-validation"action="submit" novalidate method="POST" id="form">
+      <div class="modal-body">
+                      <p><h6>Etes-vous sur de vouloir supprimer ce film?</h6>
+                        <textarea class="form-control" id="numero2"visibility: hidden></textarea>
+                        
+                      
+    </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="button" onclick="supprimerFilm1()" class="btn btn-primary">Supprimer</button>
+      </div>
+    </div>
+  </div>
+  
+</div>
 <table class="table">
     
     
@@ -164,3 +186,5 @@
 <script src="js/liste.js"></script>
 
 <script src="js/films.js"></script>
+<script src="js/fetch.js"></script>
+
